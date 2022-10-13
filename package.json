@@ -1,0 +1,15 @@
+{
+	"name": "nasa-demo-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"client": "npm start --prefix client",
+		"server": "npm run dev --prefix server",
+		"start": "npm run server | npm run client",
+		"deploy": "npm run build --prefix client && npm run start --prefix server"
+	},
+	"keywords": [],
+	"author": "Donald Abua <abuadonald@gmail.com>",
+	"license": "ISC"
+}
