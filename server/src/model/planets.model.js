@@ -1,7 +1,7 @@
 const { parse } = require("csv-parse");
 const { createReadStream } = require("fs");
 const path = require("path");
-const planets = [];
+const planets = require("./planet.mongo");
 function isHabitable(planet) {
 	return (
 		planet["koi_disposition"] === "CONFIRMED" &&
@@ -21,22 +21,40 @@ function loadPlanets() {
 					columns: true,
 				}),
 			)
-			.on("data", (chunk) => {
-				if (isHabitable(chunk)) planets.push(chunk);
+			.on("data", (data) => {
+				if (isHabitable(data)) postPlanet(data);
 			})
 			.on("error", (err) => {
 				console.log(err);
 				reject(err);
 			})
-			.on("end", () => {
+			.on("end", async () => {
+				const count = (await getAllPlanets()).length;
 				console.log("Done streaming!");
+				console.log("Found", count);
 				resolve();
 			});
 	});
 }
 
-function getAllPlanets() {
-	return planets;
+async function getAllPlanets() {
+	return await planets.find({});
+}
+
+async function postPlanet(planet) {
+	try {
+		await planets.updateOne(
+			{
+				keplerName: planet.kepler_name,
+			},
+			{
+				keplerName: planet.kepler_name,
+			},
+			{ upsert: true },
+		);
+	} catch (error) {
+		console.error(`Could not update database: ${error}`);
+	}
 }
 
 module.exports = { getAllPlanets, loadPlanets };

@@ -1,36 +1,36 @@
 const {
 	getAllLaunches,
-	postLaunch,
+	scheduleLaunch,
 	isValidId,
 	abortLaunch,
 } = require("../../model/launches.model");
+const { getPagination } = require("../../utils/query");
 
-function httpGetAllLaunches(req, res) {
-	return res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req, res) {
+	const { skip, limit } = getPagination(req.query);
+	return res.status(200).json(await getAllLaunches(skip, limit));
 }
 
-function httpPostLaunch(req, res) {
+async function httpPostLaunch(req, res) {
 	const launch = req.body;
-	launch.launchDate = new Date(launch.launchDate);
-	if (!launch.launchDate)
-		return res.status(400).json({ error: "wrong date format" });
-	else if (!launch.mission) {
-		return res.status(400).json({ error: "Provide a mission" });
-	} else if (!launch.rocket)
-		return res.status(400).json({ error: "Provide a transit rocket" });
-	else if (!launch.target)
-		return res.status(400).json({ error: "Provide a destination" });
-	postLaunch(launch);
+	console.log(launch.launchDate);
+	if (!launch.launchDate || !launch.mission || !launch.target || !launch.rocket)
+		return res.status(400).json({ error: "Missing required field!" });
+	const stamp = new Date(launch.launchDate);
+	console.log(isNaN(stamp));
+	if (isNaN(stamp)) return res.status(400).json({ error: "Invalid date" });
+	await scheduleLaunch(launch);
 	return res.status(201).json(launch);
 }
 
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
 	const { id } = req.params;
-	if (!isValidId(+id)) {
+	const exists = await isValidId(+id);
+	if (!exists) {
 		return res.status(404).json({ error: "Launch not found" });
 	}
-
-	return res.status(200).json(abortLaunch(+id));
+	if (!abortLaunch(+id)) return res.status(400).json({ aborted: false });
+	return res.status(200).json({ aborted: true });
 }
 module.exports = {
 	httpGetAllLaunches,
