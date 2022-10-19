@@ -1,10 +1,12 @@
 const request = require("supertest");
 const { connectdb, disconnectdb } = require("../../database/mongo");
 const app = require("../../app");
+const { loadPlanets } = require("../../model/planets.model");
 
 describe("Launches API", () => {
 	beforeAll(() => {
 		connectdb();
+		loadPlanets();
 	});
 	afterAll(() => {
 		disconnectdb();
