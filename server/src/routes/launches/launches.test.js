@@ -4,9 +4,9 @@ const app = require("../../app");
 const { loadPlanets } = require("../../model/planets.model");
 
 describe("Launches API", () => {
-	beforeAll(() => {
+	beforeAll(async () => {
 		connectdb();
-		loadPlanets();
+		await loadPlanets();
 	});
 	afterAll(() => {
 		disconnectdb();
