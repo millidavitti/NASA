@@ -18,7 +18,7 @@ jobs:
           - 16.x
         mongodb-version:
           - 6.0
-    runs-on: ubuntu-latest
+   runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js version ${{matrix.node-version}}
@@ -27,7 +27,8 @@ jobs:
           node-version: ${{matrix.node-version}}
       - name: Use MongoDB in Github Actions
         uses: supercharge/mongodb-github-action@1.8.0
-        with: ${{matrix.mongodb-version}}
+        with: 
+          mongodb-version: ${{matrix.mongodb-version}}
       - run: npm install
       - run: npm run build
       - run: npm test --prefix server
