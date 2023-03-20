@@ -2,6 +2,7 @@ const { parse } = require("csv-parse");
 const { createReadStream } = require("fs");
 const path = require("path");
 const planets = require("./planet.mongo");
+
 function isHabitable(planet) {
 	return (
 		planet["koi_disposition"] === "CONFIRMED" &&

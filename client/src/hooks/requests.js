@@ -1,4 +1,5 @@
 const url = (endpoint) => `http://localhost:5000/v1/${endpoint}`;
+
 async function httpGetPlanets() {
 	const response = await fetch(url("planets"));
 	return await response.json();

@@ -2,8 +2,8 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
-const planetRoutes = require("./routes/planets/planets.route");
-const launchesRoutes = require("./routes/launches/launches.route");
+// const planetRoutes = require("./routes/planets/planets.route");
+// const launchesRoutes = require("./routes/launches/launches.route");
 const api = require("./routes/api");
 
 const app = express();

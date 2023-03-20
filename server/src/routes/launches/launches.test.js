@@ -11,6 +11,7 @@ describe("Launches API", () => {
 	afterAll(() => {
 		disconnectdb();
 	});
+
 	describe("Test GET /launches", () => {
 		test("it should return a list of launches", async () => {
 			await request(app).get("/v1/launches").expect(200);
@@ -47,6 +48,7 @@ describe("Launches API", () => {
 			const responseDate = new Date(response.body.launchDate).valueOf();
 			const validDate = new Date(validData.launchDate).valueOf();
 			expect(responseDate).toBe(validDate);
+
 			expect(response.body).toMatchObject(incompleteData);
 		});
 
@@ -57,6 +59,7 @@ describe("Launches API", () => {
 				.expect(400);
 			expect(response.body).toStrictEqual({ error: "Missing required field!" });
 		});
+
 		test("it should handle invalid dates", async () => {
 			const response = await request(app)
 				.post("/v1/launches")

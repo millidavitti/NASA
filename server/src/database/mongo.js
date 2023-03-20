@@ -9,7 +9,7 @@ mongoose.connection.on("error", (err) => {
 	console.error(err);
 });
 function connectdb() {
-	mongoose.connect(process.env.DCURL);
+	mongoose.connect(process.env.MONGO_URI);
 }
 function disconnectdb() {
 	mongoose.disconnect();
