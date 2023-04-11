@@ -7,11 +7,10 @@ const cors = require("cors");
 const api = require("./routes/api");
 
 const app = express();
-
 // middleware
-app.use(
+http: app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: process.env.URL,
 	}),
 );
 app.use(morgan(`combined`));
