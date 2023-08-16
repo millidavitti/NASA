@@ -6,10 +6,10 @@
 	"scripts": {
 		"install": "npm install  --prefix client && npm install --prefix server",
 		"client": "npm start --prefix client",
-		"build": "npm run build --prefix client",
+		
 		"server": "npm run dev --prefix server",
 		"start": "npm run server & npm run client",
-		"deploy": "npm run build --prefix client && npm run start --prefix server",
+		"build": "npm run build --prefix client && npm run start --prefix server",
 		"deploy-cluster": "npm run build --prefix client && npm run cluster --prefix server"
 	},
 	"keywords": [],
